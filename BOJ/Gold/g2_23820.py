@@ -3,7 +3,7 @@ import time
 
 input = sys.stdin.readline
 
-max = 2020202 #?
+max = 2000005 #200003보다 큰 수만 적음 통과되는 문제
 n = int(input())
 A = list(map(int, input().split()))
 
@@ -26,22 +26,15 @@ if B[0] == 0:  # B에 0이 없다면, 무조건 0나옴
     print(0)
     sys.exit(0)
 
-elif B[1] == 0:  # B에 0이 있는데 1이 없다면, 무조건 1나옴
-    print(1)
-    sys.exit(0)
-
-C[0] = 1
-C[1] = 1
-
 for i in range(1, max):  # 0을 빼고 다 곱해준다. #i=1~2000002
     if B[i] == 1:
-        for j in range(i, max // i):  # j=i~2000002 #?
+        for j in range(i, max):  # j=i~2000002
             if i * j >= max:
                 break
-            elif B[j] == 1:
+            if B[j] == 1:
                 C[i * j] = 1
 
-for i in range(max):
+for i in range(1,max): #i=1~2000003
     if C[i] == 0:
         print(i)
         break
