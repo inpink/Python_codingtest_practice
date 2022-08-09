@@ -5,9 +5,11 @@ input = sys.stdin.readline
 배열 A의 subsequence를 잡아 이들의 mex 값을 배열 $B$의 맨 뒤에 적는다.
 배열 B의 subarray를 잡아 이들의 mex 값을 배열 $C$의 맨 뒤에 적는다.
 이때 플레이어가 얻게 될 점수는 배열 $C$에 존재하는 모든 원소들의 mex값이다. 
+
 '''
 
-
+'''
+#1번 해결법. 
 def BB():
     for i in range(len(A)):
         if i == (len(A) - 1):  # 마지막 경우까지 쫘라락 같은 경우에는
@@ -35,6 +37,8 @@ else:
     print(BB() + 2)  # B
 
 '''
+
+'''
 #단순히 리스트의 mex를 구하는 것은, 아래처럼 set를 이용한 알고리즘이 효율적이다.
 #하지만 이 문제에서는 여러 가지 조합이 나올 수 있고, 그 조합들을 이용한 mex값들의 리스트 중에서 또 mex값을 구하는 등
 #mex값을 총 3번 구해야 하기 때문에, 
@@ -50,3 +54,21 @@ for i in range(len(A)+1):
         h=i
         break
 '''
+
+#시간복잡도 1등한 set만을 이용한 해결법
+import sys
+input = sys.stdin.readline
+
+n=int(input())
+A=set(map(int, input().split()))
+
+if 0 not in A:
+    print(0)
+elif A == {0}:
+    print(1)
+else:
+    for i in range(len(A)+1):
+        if i not in A:
+            h=i
+            print(h+2)
+            break
