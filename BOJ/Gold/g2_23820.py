@@ -3,7 +3,7 @@ import time
 
 input = sys.stdin.readline
 
-max = 2000005 #200003보다 큰 수만 적음 통과되는 문제
+max = 2000004 #200003보다 큰 수만 적음 통과되는 문제
 n = int(input())
 A = list(map(int, input().split()))
 
