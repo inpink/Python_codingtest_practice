@@ -26,9 +26,9 @@ if B[0] == 0:  # B에 0이 없다면, 무조건 0나옴
     print(0)
     sys.exit(0)
 
-for i in range(1, max):  # 0을 빼고 다 곱해준다. #i=1~2000002
+for i in range(1, max):  # 0을 빼고 다 곱해준다. #i=1~2000003
     if B[i] == 1:
-        for j in range(i, max):  # j=i~2000002
+        for j in range(i, max):  # j=i~2000003
             if i * j >= max:
                 break
             if B[j] == 1:
