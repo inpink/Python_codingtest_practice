@@ -36,20 +36,31 @@ for i in result:
 print(">")
 
 
-#위에는 내가 푼 방법. 아래는 deque를 사용한 방법. 추가로 공부할 것
+#위에는 내가 푼 방법. 아래는 deque를 사용한 방법.
 '''
-from collections import deque
+import sys
+input = sys.stdin.readline
+
 n, k = map(int, input().split())
-s = deque([])
-for i in range(1, n + 1):
-    s.append(i)
+
+from collections import deque
+
+#덱에 전부 담아주기
+deq = deque()
+
+for i in range(1,n+1):
+    deq.append(i)
+#print(deq)
+
+#출력
 print('<', end='')
-while s:
-    for i in range(k - 1):
-        s.append(s[0])
-        s.popleft()
-    print(s.popleft(), end='')
-    if s:
-        print(', ', end='')
+for i in range(n):
+    deq.rotate(-(k-1)) #앞에 있는 2개를 뒤로 옮기고,
+    #print(deq) 
+    print(deq.popleft(), end='') #맨 앞에 있는 것을 삭제한다.
+    if i!=n-1: #마지막 것만 제외하고
+        print(', ', end='') #, 출력
 print('>')
+    
+
 '''
