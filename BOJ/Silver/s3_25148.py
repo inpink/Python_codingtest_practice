@@ -33,3 +33,22 @@ print(count)
 '''
 
 #이 방법은, l을 미리 만들지 않고 K에서부터 A로 가는 방식
+
+import sys
+input = sys.stdin.readline
+
+#7 77
+#거쳐야 하는 지점을 미리 l에 담아 두고 a에서부터 k로 가는 방식
+a, k = map(int, input().split())
+
+count=0
+while True:
+    if a==k:
+        print(count)
+        break
+
+    if k>=a*2 and k%2==0:
+        k=k//2
+    else:
+        k-=1
+    count+=1
