@@ -14,7 +14,7 @@ def dfs():
 
     # 탐색하며 s에 담고 뺴고 하기
     for i in range(1, n + 1):  # i=1,2,3,4
-        if visited[i - 1] == False:  # 방문하지 않은 경우에만 방문하자
+        if 1:  # 방문하지 않은 경우에만 방문하자
             visited[i - 1] = True  # 방문함
             s.append(i)  # 방문함
             # 값 넣은 다음에 또 탐색 시작
@@ -31,33 +31,3 @@ n, m = map(int, input().split())
 s = []  # 각 케이스를 담아줄 리스트. 1234 1243 이렇게 값이 삭제되고 담기고 하면서 진행된다
 visited = [False] * n  # n개만큼 F를 만들어준다. 방문한 상태면 T가 된다.
 dfs()  # 탐색 시작
-
-'''
-#위는 백트래킹 사용, 아래는 라이브러리로 순열 바로 구하는 쉬운 방법. 
-이게 대채 왜 실버3냐고
-import sys
-input = sys.stdin.readline
-import itertools
-
-n, m = map(int, input().split())
-
-nums=[]
-
-for i in range(n):
-    nums.append(i+1)
-
-#permutations는 순열, combinations는 조합 구하는 함수
-result_array=itertools.permutations(nums,m) #nums에서 m개를 가진 순열 뽑기
-
-for i in result_array:
-    for j in i:
-        print(j,end=' ')
-    print()
-
-
-
-
-
-
-
-'''
