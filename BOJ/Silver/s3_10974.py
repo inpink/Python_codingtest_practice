@@ -2,10 +2,6 @@ import sys
 
 input = sys.stdin.readline
 
-import sys
-
-input = sys.stdin.readline
-
 
 def dfs():
     if len(s) == n:
