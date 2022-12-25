@@ -1,0 +1,28 @@
+n=int(input())
+
+l=[]
+nums=set()
+index=0
+for i in range(n):
+    x,y=map(int,input().split())
+    l.append([x,y])
+    nums.add(x)
+    nums.add(y)
+nums=sorted(list(nums)) #좌표 압축
+dnums={}
+for a in range(len(nums)):
+    dnums[nums[a]]=a
+
+dx={}
+dy={}
+for i in l: #딕셔너리로 x, y 정보 각각 담기
+    x=dnums[i[0]]
+    y=dnums[i[1]]
+    if x in dx:
+        dx[x].append(y)
+    else:
+        dx[x]=[y]
+    if y in dy:
+        dy[y].append(x)
+    else:
+        dy[y]=[x]
