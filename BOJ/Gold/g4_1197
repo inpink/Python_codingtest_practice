@@ -1,0 +1,34 @@
+import sys
+input = sys.stdin.readline
+
+v, e = map(int, input().split()) #v는 1부터 v까지 정점 번호, e는 간선 개수
+Glist = [] #그래프 정보를 담아줄 리스트
+for i in range(e): #그래프 정보(간선,가중치) 입력받아서 Elist에 저장
+    a,b,c=map(int, input().split())
+    Glist.append([c,a,b]) #sort를 위해 가중치를 맨 앞에
+
+Glist.sort() #★가중치 기준으로 정렬
+#print(Glist)
+
+def find(x): #★진짜 부모를 찾아 update하고 반환해주는 함수!
+    if x!=Vroot[x]: #자기 자신이 root이면 그냥 자기 자신 정점을 루트로서 반환해주고, ★그렇지 않다면 '재귀'를 통해 진짜루트를 찾아서 반환한다.
+        Vroot[x]=find(Vroot[x])  #따로 따로 만들어지고, 나중에 합쳐지는 경우에 큰 집합 2개가 1개로 연결되어 부모 update해줄 일이 있다.
+        #부모를 찾는 동시에, 재귀를 이용하여 update까지 함(최적화)
+    return Vroot[x]
+
+Vroot = [i for i in range(v+1)] #각 정점의 root를 담아주는 리스트. ★root가 같다면, 같은 집합이다!★
+#초기값은 정점 자기 자신 번호로(자기 자신이 root라 가정=★자기 자신만 담긴 집합 1개씩으로 배정★)
+
+ans=0
+for w,a,b in Glist: #*2차원 리스트 값 편하게 꺼내 쓰는 방법, 모든 간선에 대해 검사.
+    #print(a,b,w) #2차원 리스트 요소 하나하나 꺼내져 나옴
+    #print("시작",Vroot)
+    aRoot=find(a) #간선으로 이어진 두 정점의 '진짜' root를 구한다.
+    bRoot=find(b)
+    #print(aRoot,bRoot,'a',Vroot)
+    if aRoot!=bRoot:  #서로 다른 root를 가지고 있다면(=서로 다른 집합에 속한다), 둘 중 하나의 집합을 탈락시키고 나머지 하나의 집합으로 편입된다.
+        Vroot[bRoot]=aRoot #그냥 a번 정점을 root로 차곡차곡 담기.
+        ans+=w #간선 선택했으니까 weight 담기
+    #print(Vroot)
+    #print()
+print(ans)
