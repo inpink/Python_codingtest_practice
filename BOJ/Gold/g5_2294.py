@@ -11,8 +11,7 @@ input = sys.stdin.readline
 '''
 
 '''
-dp문제 
-
+dp문제
 '''
 n,k=map(int, input().split(" "))
 
@@ -24,7 +23,6 @@ dp=[100001 for i in range(k+1)]
 dp[0]=0
 
 for i in range(1,k+1,1):
-
     for coin in coins:
         if i-coin>=0:
             dp[i] = min(dp[i], dp[i-coin]+1)
@@ -35,4 +33,11 @@ else:
     print(dp[k])
 
 
-        
+
+'''
+Write a Solution after solving this problem
+: dp문제임은 명확했음. i 시점에서 최선의 값이 담기기 때문. 
+i원을 만들 때 단순히 이전 값(i-1같은)에서 dp[i-(i-1)]을 더해서 사용하는 것이 아니라,
+최소가 갱신되는 경우는, 새로운 coin 1개로 바꿔치기 하는 경우이다. 
+따라서 모든 coins에 대해 바꿔치기할 수 있는지 검사한다. ☆dp[i-coin]+1☆
+'''
