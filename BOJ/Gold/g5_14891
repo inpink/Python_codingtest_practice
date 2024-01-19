@@ -1,0 +1,77 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+def rotateByDirection(direction, wheelNumber):
+    if direction==-1:
+        rotateLeft(wheelNumber)
+    elif direction==1:
+        rotateRight(wheelNumber)
+    
+def rotateLeft(wheelNumber):
+    wheels[wheelNumber].rotate(-1)
+
+def rotateRight(wheelNumber):
+    wheels[wheelNumber].rotate(1)
+
+    
+'''
+N극은 0, S극은 1
+방향 1 시계 방향, -1 반시계 방향
+
+오른쪽 맞닿는 index 2, 왼쪽 6
+돌렸을 때 서로 같은 극이면 회전X, 다른 극이면 회전O
+'''
+
+wheels=[]
+wheel_count=4
+left_match_index=6
+right_match_index=2
+
+for i in range(wheel_count):
+    inputValue = map(int,input().strip())
+    wheel = deque(inputValue)
+    wheels.append(wheel)
+
+k=int(input())
+
+for i in range(k):
+    wheelNumber, direction = map(int,input().split())
+    #3 -1이면 3번 휠을 반시계 방향으로 회전하라  /  입력되는 휠번호는 1부터 시작
+    wheelNumber-=1 #wheelNumber도 0번부터 시작
+
+
+    newRotationQueue = deque()
+    newRotationQueue.append([wheelNumber, direction])
+    visited = [0 for i in range(wheel_count)] #0은 검사안함, 1은 검사함
+    while (len(newRotationQueue)!=0):
+        #print(newRotationQueue)
+        thisWheelNumber, thisDirection = newRotationQueue.pop()
+        visited[thisWheelNumber]=1
+        
+        #왼쪽 판단
+        if (thisWheelNumber>0 and visited[thisWheelNumber-1]==0):
+            if wheels[thisWheelNumber][left_match_index] != wheels[thisWheelNumber-1][right_match_index]:
+                newRotationQueue.append([thisWheelNumber-1, thisDirection*-1])
+
+        #오른쪽 판단
+        if (thisWheelNumber<wheel_count-1 and visited[thisWheelNumber+1]==0):
+            if wheels[thisWheelNumber][right_match_index] != wheels[thisWheelNumber+1][left_match_index]:
+                newRotationQueue.append([thisWheelNumber+1, thisDirection*-1])
+
+        #좌우 판단 다끝나면 해당 바퀴 회전
+        rotateByDirection(thisDirection, thisWheelNumber)
+    
+ans=0
+for i in range(wheel_count):
+    if (wheels[i][0]==1):
+        ans+=(2**i)
+
+print(ans)
+
+```
+[Solution]
+1. 바퀴가 시계, 반시계 방향으로 계속 회전한다 => Deque 사용
+2. i번째 바퀴가 i-1, i+1번째 바퀴에 영향을 주고, 영향이 순차적으로 진행됨 => Queue 사용
+```
