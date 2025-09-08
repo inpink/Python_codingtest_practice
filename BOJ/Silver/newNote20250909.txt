@@ -1,0 +1,92 @@
+
+백준 2573번(bfs)
+https://www.acmicpc.net/problem/2573
+
+- for문을 쓰는 함수 중간에서 return하는 것 주의하자.  ⭐️️마지막 반복에서 count>=2같은 조건 만족할 수도 있다. ⭐️
+아래는 틀린 코드.
+```
+def isSeparate(g):
+
+  visited=[[False for j in range(m)] for i in range(n)]
+
+  count=0
+  for startX in range(1,n-1):
+    for startY in range(1,m-1):
+      if g[startX][startY]==0 or visited[startX][startY]:
+        continue
+      if count>=2: ⭐️bad
+        return True
+
+      q=deque([])
+      q.append((startX,startY))
+      visited[startX][startY]=True
+
+      while True:
+        if len(q)==0:
+          break
+
+        x,y=q.popleft()
+
+        for moveX,moveY in dir:
+          nextX=x+moveX
+          nextY=y+moveY
+
+          if g[nextX][nextY]==0:
+            continue
+          if visited[nextX][nextY]:
+            continue
+
+          visited[nextX][nextY]=True
+          q.append((nextX,nextY))
+      count+=1
+
+  # print(count)
+  return False
+```
+
+아래는 좋은 코드
+```
+
+def isSeparate(g):
+
+  visited=[[False for j in range(m)] for i in range(n)]
+
+  count=0
+  for startX in range(1,n-1):
+    if count>=2: #⭐️
+      break
+    for startY in range(1,m-1):
+      if g[startX][startY]==0 or visited[startX][startY]:
+        continue
+      if count>=2: #⭐️
+        break
+
+      q=deque([])
+      q.append((startX,startY))
+      visited[startX][startY]=True
+
+      while True:
+        if len(q)==0:
+          break
+
+        x,y=q.popleft()
+
+        for moveX,moveY in dir:
+          nextX=x+moveX
+          nextY=y+moveY
+
+          if g[nextX][nextY]==0:
+            continue
+          if visited[nextX][nextY]:
+            continue
+
+          visited[nextX][nextY]=True
+          q.append((nextX,nextY))
+      count+=1
+
+  # print(count)
+  if count>=2: #⭐️
+    return True
+  else:
+    return False
+```
