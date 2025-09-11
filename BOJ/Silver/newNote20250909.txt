@@ -129,3 +129,25 @@ for money in range(1,m+1): #money원으로 살 수 있는 최대 금액이 dp[mo
 
 print(max(dp))
 ```
+
+----------
+
+백준 1135번(dfs+dp)
+
+- x점까지의 비용을 구하는 문제. x점 아래의 자식 노드가 k개이고 소요 시간이 다른데 점화식을 어떻게 세울지가 중요했던 문제.
+- 4 3 2이 있다면, 4->3->2 순으로 방문하는 것이 유리하고, 각 방문 시  max( 4, (3+1), (2+2))이 걸린다.
+- 4 4 3이 있다면, max( 4, 4+1, 3+2)이 걸린다.
+- 바로 위 예제에서, 4+ 1+ 1이 아니다.  max(4, 4+1, 3+2)다. 4+1으로 max값이 갱신됐다면, 3번째 것이 5초 걸린다해도 총 4+1초만 걸리면 된다.
+```
+def calculate(candidates):
+  candidates.sort(reverse=True)
+
+  maxCandi=max(candidates)
+
+  count=maxCandi
+  for i in range(1,len(candidates)):
+    if i+candidates[i]>maxCandi:
+      count+=i+candidates[i]-maxCandi
+      maxCandi=max(maxCandi, i+candidates[i]) # ⭐
+  return count
+  ```
