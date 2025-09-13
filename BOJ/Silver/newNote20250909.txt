@@ -209,7 +209,9 @@ print(ans)
 
 ---
 
-백준 2437번 (그리디)
+###[그리디]
+
+> 백준 2437번 (그리디)
 
 - 아이디어가 없으면 못풀고, 코드는 엄청 간단한 그리디 문제.
 - 주석 참고
@@ -232,3 +234,52 @@ for number in weights:
 
 print(ans+1) #정답 = 만들 수 없는 최솟값  = 지금까지 만들 수 있는 숫자의 최댓값 + 1
 ```
+
+--------
+
+> 백준 3109번 (그리디)
+
+- 그래프에서 "대각선 이동"되는지 문제 잘 읽자. 처음에 대각선 이동 되는거 못봐서 문제 이해 못했음
+- 그래프에서도 "그리디"일 수 있다는 가정을 하고 문제를 보자.
+  - 그러면 이게 보인다. "최대한의 파이프를 만들려면 -> 하나의 파이프는, 특정 y줄에서 딱 한 칸만 먹는 것이 유리하다. ⭐대각선 이동이 가능하기 때문이다!!⭐
+   그리고, 시작 y줄은 다 비어있기 때문이다. 하나의 파이프가 같은 y줄에서 2칸 차지해버리면 불필요하게 가능성을 막는 것이다. 즉, 비어있는 한 칸에 올 수 있는 효율적인 이전 칸은 정해져있다."
+  - 즉, 맨 위에서부터 탐색하고, (오른대각위, 바로 오른 옆, 오른대각아래) 순서대로 가능한걸 먼저 가는 dfs하면 그만이다.
+- 구현은 간단함 걍 dfs. 최대한의 파이프를 만들어야 하니까 1개라도 맨 끝 y줄 다다랐다면 바로 1 return하는 거만 주의하면 됨.
+A x x . A
+B A x A B
+. B A B .
+. . B x .
+. . . x .
+
+```
+dir = [(-1, 1), (0,1), (1,1)] #대각상, 바로옆, 대각아래
+
+def dfs(x,y):
+  if y==m-1:
+    return 1
+
+  for dirX, dirY in dir:
+    nextX=dirX+x
+    nextY=dirY+y
+
+    if nextX<0 or nextX>=n or nextY<0 or nextY>=m:
+      continue
+    if graph[nextX][nextY]!='x':
+      graph[nextX][nextY]='x'
+      ex = dfs(nextX, nextY)
+      if ex==1:
+        return 1
+
+  return 0
+
+count=0
+for i in range(n):
+  startX=i
+  startY=0
+
+  graph[startX][startY]='x'
+  count+= dfs(startX, startY)
+print(count)
+```
+
+--------
