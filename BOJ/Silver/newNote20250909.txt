@@ -411,3 +411,61 @@ print(ones_upto(B) - ones_upto(A - 1))
   10^16개 전부 계산하면 시간초과이므로 위와 같은 알고리즘 쓰고, (b까지의 개수 - a까지의 개수) 로 정답 구함
 
 -----
+
+### [유니온 파인드]
+
+```
+parent = list(range(n + 1))
+
+def find(x):
+  while parent[x] != x:
+    parent[x] = parent[parent[x]]
+    x = parent[x]
+  return x
+
+def union(a, b):
+  ra, rb = find(a), find(b)
+  if ra != rb:
+    parent[rb] = ra
+
+for _ in range(m):
+  a, b = map(int, input().split())
+  union(a, b)
+```
+
+### [플로이드 워셜]
+
+```
+# 인접 행렬(거리 행렬) - 플로이드 워셜용
+dist = [[INF] * (n + 1) for _ in range(n + 1)]
+for i in range(1, n + 1):
+  dist[i][i] = 0
+
+for _ in range(m):
+  a, b = map(int, input().split())
+  # 무가중치 양방향 그래프
+  dist[a][b] = 1 # ⭐
+  dist[b][a] = 1 # ⭐
+
+for k in range(1, n + 1):
+  dk = dist[k]
+  for i in range(1, n + 1):
+    di = dist[i]
+    ik = di[k]
+    if ik == INF:
+      continue
+    for j in range(1, n + 1):
+      nk = ik + dk[j]
+      if nk < di[j]:
+        di[j] = nk
+```
+
+--------
+
+> 백준 2610번 (유니온 파인드, 플로이드 워셜)
+
+풀이법
+- 같은 그룹인지는 union find로 체크
+- ⭐대표로부터 각 노드의 최단거리는 다익스트라 여러번 or 플로이드 워셜⭐
+
+
